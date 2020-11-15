@@ -12,6 +12,8 @@
     </button>
   </div>
   <div>你选择了{{selectMenu}}</div>
+  <button @click="overActive">点餐完毕</button>
+  <div>{{overText}}</div>
 </template>
 
 <script lang="ts">
@@ -24,7 +26,8 @@ import {
   onBeforeUpdate,
   onUpdated,
   onRenderTracked,
-  onRenderTriggered
+  onRenderTriggered,
+  watch
   } from 'vue'
 import HelloWorld from './components/HelloWorld.vue';
 
@@ -99,8 +102,23 @@ export default {
     console.log(data)
     const refData = toRefs(data)
     console.log(refData)
+
+    const overText = ref("湘味缘")
+    const overActive = () => {
+      overText.value = "点餐完成" + overText.value
+      // document.title = overText.value
+    };
+    watch(() => {
+      return [overText,data.selectMenu]
+    }, ([newValue,newValue2], [oldValue,oldValue2]) => {
+      console.log(`new-----${newValue}${newValue2}`);
+      console.log(`old-----${oldValue}${oldValue2}`);
+      // document.title= newValue
+    })
     return {
-      ...refData
+      ...refData,
+      overText,
+      overActive
     }
   }
 }
