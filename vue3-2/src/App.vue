@@ -15,7 +15,17 @@
 </template>
 
 <script lang="ts">
-import {ref, reactive, toRefs, onBeforeMount,onMounted,onBeforeUpdate,onUpdated} from 'vue'
+import {
+  ref,
+  reactive,
+  toRefs,
+  onBeforeMount,
+  onMounted,
+  onBeforeUpdate,
+  onUpdated,
+  onRenderTracked,
+  onRenderTriggered
+  } from 'vue'
 import HelloWorld from './components/HelloWorld.vue';
 
 //reactive 把普通的数据变成模板中有响应能力的数据
@@ -60,13 +70,26 @@ export default {
     onUpdated (() => {
         console.log('组件更新之后执行-------onUpdated()')
     });
-
+    // onRenderTracked ((event) => { // 每一个都跟踪
+    //   console.log("状态跟踪钩子函数--------")
+    //   console.log("event",event)
+    // });
+    onRenderTriggered ((event) => { // 新值旧值都会出现
+      console.log("状态跟踪钩子函数--------")
+      console.log("event",event)
+    });
     // setup() 开始创建之前 在beforeCreate之前执行
     // onbeforeUnmount() 组件卸载完成之后执行的函数
     // onUnmounted () 组件卸载完成之后执行的函数
     // onActivated () 被包含在keep-alive中的组件，会多出两个生命周期钩子函数，被激活时执行
     // onDeactivated() 比如从A组件,切换到B组件，A组件消失时执行
     // onErrorCaptured () 当捕获一个来自子孙组件的异常时激活钩子函数
+
+
+    // 调试钩子 onRenderTracked 状态跟踪 onRenderTriggered
+
+
+
 
     // const menu = ref(['小炒肉','花菜']);
     // const selectMenu = ref("");
@@ -79,24 +102,6 @@ export default {
     return {
       ...refData
     }
-  },
-  beforeCreate () {
-    console.log("beforeCreate")
-  },
-  created () {
-    console.log("created")
-  },
-  beforeMount() {
-    console.log("beforeMount")
-  },
-  mounted () {
-    console.log("mounted")
-  },
-  beforeUpdate () {
-    console.log("beforeUpdate")
-  },
-  updated () {
-    console.log("updated")
   }
 }
 
@@ -104,6 +109,9 @@ export default {
 //生命周期
 //钩子函数
 // beforeCreate created    setup 钩子是在berforeCreate前执行
+
+// 调试钩子 onRenderTracked onRenderTriggered
+
 </script>
 
 <style>
