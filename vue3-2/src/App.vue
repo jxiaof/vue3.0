@@ -6,7 +6,7 @@
   <div>
     <button 
       @click="selectMenuFun(index)"
-      v-for="(item, index) in menu" 
+      v-for="(item, index) in menu"
       :key="index">
       {{index}} : {{item}}
     </button>
@@ -15,9 +15,10 @@
 </template>
 
 <script lang="ts">
-import {ref} from 'vue'
+import {ref, reactive, toRefs} from 'vue'
 import HelloWorld from './components/HelloWorld.vue';
 
+//reactive
 // @Options({
 //   setup () {
 //     const meaus = ref(['花菜','小炒肉'])
@@ -27,26 +28,35 @@ import HelloWorld from './components/HelloWorld.vue';
 //     }
 //   },
 // })
+interface DataProps {
+  menu: string[];
+  selectMenu: string;
+  selectMenuFun: (index: number) => void;
+}
 export default {
   name:'app',
   components: {
     HelloWorld
   },
-  data () {
-    return {
-      
-    }
-  },
   setup () {
-    const menu = ref(['小炒肉','花菜']);
-    const selectMenu = ref("");
-    const selectMenuFun = (index: number) => {
-      selectMenu.value = menu.value[index];
-    }
+    const data: DataProps = reactive ({
+      menu:['小炒肉','花菜'],
+      selectMenu: '',
+      selectMenuFun: (index: number) => {
+        data.selectMenu = data.menu[index];
+      }
+    })
+
+    // const menu = ref(['小炒肉','花菜']);
+    // const selectMenu = ref("");
+    // const selectMenuFun = (index: number) => {
+    //   selectMenu.value = menu.value[index];
+    // }
+    console.log(data)
+    const refData = toRefs(data)
+    console.log(refData)
     return {
-      menu,
-      selectMenu,
-      selectMenuFun
+      ...refData
     }
   }
 }
